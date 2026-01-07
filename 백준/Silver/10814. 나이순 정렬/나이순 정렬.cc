@@ -1,38 +1,41 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <vector>
 
 using namespace std;
 
-struct Member{
-    int age;
-    string name;
-};
 
 
-bool compare(const Member& a, const Member& b){
-    if(a.age < b.age){
-        return true;
-    }
-    else
-        return false;
-    
-}
+
 
 int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
     int N;
     cin >> N;
     
-    Member* members = new Member[N];
-    
+    vector < pair<int, string> > v;
+
     for(int i = 0; i < N; i++){
-        cin >> members[i].age >> members[i].name;
+        int temp1;
+        string temp2;
+
+        cin >> temp1 >> temp2;
+
+        v.push_back({temp1, temp2});
     }
-    
-    stable_sort(members, members + N, compare);
-    
+
+    stable_sort(v.begin(), v.end(), [](const pair <int, string>& a, const pair<int, string>& b){
+        if(a.first < b.first){
+            return true;
+        }
+        else
+            return false;
+    });
+    //cout << endl;
     for(int i = 0 ; i < N; i++){
-        cout << members[i].age << " " << members[i].name << "\n";
+        cout << v[i].first << " " << v[i].second << "\n";
     }
-    
 }
