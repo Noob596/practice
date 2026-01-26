@@ -21,7 +21,9 @@ Position pos;
 
 void markmap(int m_posx, int m_posy){
     
-    for(int i = 0; i < N; i++){ //가로 세로 +2씩 마킹(불가능)
+    for(int i = 0; i < N; i++){ //가로 세로 +2씩 마킹
+        // 왜냐하면 한 점이 여러개의 퀸에 의해 불가능할 경우
+        // 한 번의 demark로 가능 처리가 돼버릴수 있기 때문에
         map[m_posx][i] += 2;
         map[i][m_posy] += 2;
     }
@@ -58,7 +60,7 @@ void markmap(int m_posx, int m_posy){
 }
 
 void demarkmap(int m_posx, int m_posy){
-        for(int i = 0; i < N; i++){ //가로 세로 +2씩 마킹(불가능)
+        for(int i = 0; i < N; i++){ //가로 세로 -씩 마킹(가능)
         map[m_posx][i] -= 2;
         map[i][m_posy] -= 2;
     }
@@ -95,7 +97,8 @@ void demarkmap(int m_posx, int m_posy){
 }
 
 void func(int t_posx, int t_posy){
-    if(t_posx == N){
+    if(t_posx == N){ // 외우자 재귀함수는 탈출조건부터
+        // for문을 돌다가 다음 마지막이되면 카운트
         temp_cnt = 0;
         for(int x = 0; x < N; x++){
             for(int y = 0; y < N; y++){
@@ -114,13 +117,17 @@ void func(int t_posx, int t_posy){
 
     
    
-    for(int y = 0; y < N; y++){
-        if(map[t_posx][y] == 0){
-            markmap(t_posx, y);
+    for(int y = 0; y < N; y++){ // for문을 통한 재귀
+        // 근데 같은 x축에 마킹이 되면 바로 다음 x축을 보면 되므로 y 만 for문을 돌리면 된다.
+        if(map[t_posx][y] == 0){ // 현재 위치가 가능하면
+            markmap(t_posx, y); // 맵에 마킹하고
                 
-            func(t_posx + 1, 0);
+            func(t_posx + 1, 0); // 다음 x축을 돌고
                 
-            demarkmap(t_posx, y);
+            demarkmap(t_posx, y); //demark 한다. 그리고 이후에 자동으로 다음 y좌표 탐색
+            
+            // 이부분이 제일 헷갈렷다. 재귀를 통해 관리하는 x축과
+            // 함수 내부의 y축 for 문을 분리하는 논리적 흐름이 어려웟음.
         }
     }
 
@@ -161,4 +168,5 @@ int main(){
     int posy = 0;
     func(posx, posy);
     cout << ans;
+    return 0;
 }
