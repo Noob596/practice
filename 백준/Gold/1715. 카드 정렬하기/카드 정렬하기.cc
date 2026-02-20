@@ -36,7 +36,7 @@ int main(){
     (A + B) + (C + D) + ((A + B) + E) + ((A + B + E) + (C + D)) = 3A + 3B + 2C + 2D + 2E
     모르겟다 으악
 
-    힌트를 보고 왔다. 알것같기도 하다 항상 극단적으로 생각하기..
+    힌트를 보고 왔다. 항상 극단적으로 생각하기..
     10 10 1000 1000 잇다고 하면
     10 10 합쳐서 20만들고
     1000 20 합치면 1200
@@ -56,21 +56,21 @@ int main(){
     for(int i = 0; i < N; i++){
         int temp;
         cin >> temp;
-        cards.push(temp);
+        cards.push(temp); // 카드 다 입력받아 넣고
     }
     int ans = 0;
     while(1){
-        if(cards.size() == 1){
+        if(cards.size() == 1){ // 카드 묶음들이 1개가 되면 끝
             break;
         }
 
-        int temp1 = cards.top();
+        int temp1 = cards.top(); // 제일 작은 카드 묶음 두개를 더한다.
         cards.pop();
         int temp2 = cards.top();
         cards.pop();
 
-        cards.push(temp1+temp2); 
-        ans += (temp1 + temp2);
+        cards.push(temp1+temp2); // 더한 묶음을 카드 뭉치에 다시 넣는다
+        ans += (temp1 + temp2); // 앞선 프로세스는 카드 뭉치를 만드는거지, 비교 횟수를 저장하는게 아니니까 ans에 더한다. 이거 실수했다.
 
     }
     cout << ans;
