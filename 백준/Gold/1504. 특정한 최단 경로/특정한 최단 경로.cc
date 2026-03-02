@@ -8,25 +8,28 @@
 using namespace std;
 
 void dijkstra(int start, int target, vector < vector < pair <int, int > > >& map, vector < long long >& distance){
+    
     priority_queue < pair < int, int >, vector < pair < int, int > >, greater < pair < int, int > > > pq;
     distance[start] = 0; // 초기화 잊지 말자..
-    pq.push({0, start});
+    pq.push({0, start});// 시작점을 넣고
 
     while(!pq.empty()){
         int curr_dist = pq.top().first;
         int curr_pos = pq.top().second;
         pq.pop();
+        // 이제 거의 외워서 쓰는 중이다.
 
         if(distance[curr_pos] < curr_dist){
             continue;
         }
-        for(int i = 0; i < map[curr_pos].size(); i++){
+
+        for(int i = 0; i < map[curr_pos].size(); i++){ // 맵을 보고
             int next_dist = map[curr_pos][i].second;
             int next_pos = map[curr_pos][i].first;
 
-            if(distance[next_pos] > curr_dist + next_dist){
-                distance[next_pos] = curr_dist + next_dist;
-                pq.push({distance[next_pos], next_pos});
+            if(distance[next_pos] > curr_dist + next_dist){ // 새로운 경로가 이전에 저장된 경로보다 짧다면
+                distance[next_pos] = curr_dist + next_dist; // 이부분 잊지 말자. distance[] 를 변경해주고
+                pq.push({distance[next_pos], next_pos}); // pq에 push 한다.
             }
 
         }
@@ -86,5 +89,10 @@ int main(){
     else{
         cout << final_ans;
     }
-
+    /*
+    문제를 풀고 난 후 리뷰:
+    다익스트라는 시작점에서 부터 다른 모든 점 까지의 최소 거리를 찾는 것이다.
+    그러니까, 나는 경우를 나누어 다익스트라를 다섯번 실행했지만 사실상 1번노드, v1, v2 세 정점에서만 다익스트라를 실행하면 됐다.
+    운이 좋아서 시간초과가 안떴다.
+    */
 }
